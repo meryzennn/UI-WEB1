@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard - Data AC</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <!-- Custom CSS -->
+  <link href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <!-- Toggler sidebar (muncul di < lg) -->
+      <button class="btn btn-outline-light d-lg-none me-2" type="button"
+              data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
+              aria-label="Toggle sidebar">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="https://via.placeholder.com/30" alt="Logo" class="me-2 rounded" />
+        <span>KKP</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Sidebar: offcanvas di mobile, fixed di ≥ lg -->
+  <div class="offcanvas offcanvas-start text-bg-dark sidebar offcanvas-lg" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <!-- Header sidebar (mobile) -->
+    <div class="offcanvas-header d-lg-none">
+      <h5 class="offcanvas-title" id="sidebarMenuLabel">Menu</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body p-2 p-lg-3">
+      <nav class="nav flex-column sidebar-nav">
+        <a class="nav-link text-white" href="/index.html"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+        <a class="nav-link text-white" href="#"><i class="bi bi-people me-2"></i>Data User</a>
+        <a class="nav-link text-white" href="#"><i class="bi bi-exclamation-circle me-2"></i>Data Kendala</a>
+
+        <a class="nav-link text-white d-flex align-items-center" data-bs-toggle="collapse"
+           href="#submenuAlat" role="button" aria-expanded="true" aria-controls="submenuAlat">
+          <span class="flex-grow-1"><i class="bi bi-hdd-stack me-2"></i>Data Alat</span>
+          <i class="bi bi-caret-down-fill"></i>
+        </a>
+        <div class="collapse show ps-4" id="submenuAlat">
+          <a href="#" class="nav-link active text-white" aria-current="page">AC</a>
+          <a href="#" class="nav-link text-white-50">Kendaraan</a>
+          <a href="#" class="nav-link text-white-50">Alat Umum</a>
+        </div>
+
+        <a class="nav-link text-white" href="#"><i class="bi bi-tools me-2"></i>Data Teknisi</a>
+        <a class="nav-link text-white" href="#"><i class="bi bi-file-earmark-text me-2"></i>Laporan</a>
+        <a class="nav-link text-white" href="#"><i class="bi bi-gear me-2"></i>Pengaturan</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="content container-fluid">
+    <h2 class="mb-4">Data AC</h2>
+
+    <!-- Filter -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <form class="row g-3">
+          <div class="col-md-4">
+            <label for="gedung" class="form-label">Filter Gedung</label>
+            <select id="gedung" class="form-select">
+              <option selected>Semua Gedung</option>
+              <option>Gedung A</option>
+              <option>Gedung B</option>
+              <option>Gedung C</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" class="form-select">
+              <option selected>Semua Status</option>
+              <option>Normal</option>
+              <option>Rusak</option>
+              <option>Dalam Perbaikan</option>
+            </select>
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button type="button" class="btn btn-primary w-100">
+              <i class="bi bi-funnel"></i> Terapkan Filter
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Ringkasan -->
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-lg-3">
+        <div class="card text-bg-primary shadow-sm">
+          <div class="card-body text-center">
+            <h6 class="mb-1">Total AC</h6>
+            <p class="fs-4 mb-0">120</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="card text-bg-success shadow-sm">
+          <div class="card-body text-center">
+            <h6 class="mb-1">Normal</h6>
+            <p class="fs-4 mb-0">95</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="card text-bg-warning shadow-sm">
+          <div class="card-body text-center">
+            <h6 class="mb-1">Dalam Perbaikan</h6>
+            <p class="fs-4 mb-0">10</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="card text-bg-danger shadow-sm">
+          <div class="card-body text-center">
+            <h6 class="mb-1">Rusak</h6>
+            <p class="fs-4 mb-0">15</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabel Data AC -->
+    <div class="card shadow-sm">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Daftar AC</span>
+        <div class="d-flex gap-2">
+          <button class="btn btn-sm btn-outline-success"><i class="bi bi-file-earmark-excel"></i> Export Excel</button>
+          <button class="btn btn-sm btn-outline-danger"><i class="bi bi-file-earmark-pdf"></i> Export PDF</button>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-striped mb-0 align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th>Kode AC</th>
+                <th>Lokasi</th>
+                <th>Jenis</th>
+                <th>Tanggal Pasang</th>
+                <th>Status</th>
+                <th class="text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>AC-001</td>
+                <td>Gedung A - Lantai 2</td>
+                <td>Split</td>
+                <td>12/08/2021</td>
+                <td><span class="badge bg-success">Normal</span></td>
+                <td class="text-center">
+                  <div class="btn-group btn-group-sm" role="group">
+                    <button class="btn btn-info"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-warning"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>AC-045</td>
+                <td>Gedung B - Lantai 1</td>
+                <td>Cassette</td>
+                <td>20/01/2019</td>
+                <td><span class="badge bg-danger">Rusak</span></td>
+                <td class="text-center">
+                  <div class="btn-group btn-group-sm" role="group">
+                    <button class="btn btn-info"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-warning"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- /.table-responsive -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- (opsional) Chart.js kalau dipakai -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Custom JS -->
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+:root{
+  --navbar-h: 56px;
+  --sidebar-w: 240px; /* lebar sidebar desktop */
+}
+
+/* ===== Reset penting supaya tidak overflow ===== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;        /* cegah scroll horizontal */
+}
+
+img, canvas, video { max-width: 100%; height: auto; }
+
+/* Area konten tidak ketutup navbar fixed-top */
+body {
+  min-height: 100vh;
+  padding-top: var(--navbar-h);
+  background-color: #f8f9fa;
+}
+
+/* ===== Sidebar (offcanvas di mobile, fixed di ≥ lg) ===== */
+.sidebar {
+  background-color: #343a40;
+  /* Pastikan lebar offcanvas tidak kebesaran di HP */
+  --bs-offcanvas-width: clamp(220px, 80vw, var(--sidebar-w));
+}
+
+/* Link sidebar */
+.sidebar-nav .nav-link {
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin: 4px 0;
+  color: #ddd;
+}
+.sidebar-nav .nav-link:hover,
+.sidebar-nav .nav-link.active {
+  background-color: #495057;
+  color: #fff;
+}
+
+/* ===== Desktop (≥ lg) : sidebar fixed + konten geser rapi ===== */
+@media (min-width: 992px) {
+  .sidebar.offcanvas-lg {
+    position: fixed;
+    top: var(--navbar-h);
+    left: 0;
+    width: var(--sidebar-w);                   /* paksa lebar sidebar konsisten */
+    height: calc(100vh - var(--navbar-h));
+    border-right: 1px solid rgba(255,255,255,0.1);
+    transform: none !important;                /* tampilkan, bukan offscreen */
+    visibility: visible !important;
+    background-color: #343a40;
+  }
+  .sidebar.offcanvas-lg .offcanvas-body {
+    display: block;
+    overflow-y: auto;
+    padding: 0.75rem 0.75rem 1rem;
+  }
+
+  /* Kunci lebar konten agar tidak melebihi viewport (no horizontal scroll) */
+  .content {
+    margin-left: var(--sidebar-w);
+    width: calc(100% - var(--sidebar-w));      /* ini yang menghilangkan geser */
+    padding: 1.5rem;
+  }
+}
+
+/* ===== Mobile (< lg) : konten full width ===== */
+@media (max-width: 991.98px) {
+  .content {
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+}
+
+/* Card header tebal */
+.card .card-header { font-weight: 600; }
+
+/* Tabel & chart responsif */
+.table-responsive { width: 100%; }
+#kendalaChart { max-width: 100%; }
+
+/* Fokus state untuk aksesibilitas */
+.sidebar-nav .nav-link:focus {
+  outline: 2px solid #6c757d;
+  outline-offset: 2px;
+}
