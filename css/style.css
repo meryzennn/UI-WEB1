@@ -1,9 +1,17 @@
+/* ===========================
+   BRBIH – Global Styles (Bootstrap 5.3)
+   =========================== */
+
+/* ---- CSS Variables ---- */
 :root{
-  --navbar-h: 56px;
-  --sidebar-w: 240px; /* lebar sidebar desktop */
+  --navbar-h: 56px;         /* tinggi navbar fixed-top */
+  --sidebar-w: 240px;        /* lebar sidebar desktop */
+  --sidebar-bg: #343a40;     /* warna dasar sidebar */
+  --sidebar-hover: #495057;  /* warna hover/active link sidebar */
+  --sidebar-text: #ddd;      /* warna teks link sidebar */
 }
 
-/* ===== Reset penting supaya tidak overflow ===== */
+/* ---- Reset penting ---- */
 *,
 *::before,
 *::after { box-sizing: border-box; }
@@ -11,66 +19,103 @@
 html, body {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;        /* cegah scroll horizontal */
+  overflow-x: hidden;              /* cegah scroll horizontal */
 }
 
-img, canvas, video { max-width: 100%; height: auto; }
+img, canvas, video, svg { max-width: 100%; height: auto; display: block; }
 
-/* Area konten tidak ketutup navbar fixed-top */
+/* ---- Body / Global layout ---- */
 body {
   min-height: 100vh;
-  padding-top: var(--navbar-h);
+  padding-top: var(--navbar-h);    /* konten tidak ketutup navbar fixed-top */
   background-color: #f8f9fa;
 }
 
-/* ===== Sidebar (offcanvas di mobile, fixed di ≥ lg) ===== */
+/* High-DPI / mobile dynamic viewport (supaya address bar nggak motong) */
+@supports (height: 100dvh) {
+  body { min-height: 100dvh; }
+}
+
+/* ===========================
+   SIDEBAR (offcanvas di mobile, fixed di ≥ lg)
+   =========================== */
+
 .sidebar {
-  background-color: #343a40;
-  /* Pastikan lebar offcanvas tidak kebesaran di HP */
+  background-color: var(--sidebar-bg);
+  /* Offcanvas width adaptif: min 220px, max var(--sidebar-w) */
   --bs-offcanvas-width: clamp(220px, 80vw, var(--sidebar-w));
 }
 
 /* Link sidebar */
 .sidebar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
   border-radius: 6px;
   padding: 10px 12px;
   margin: 4px 0;
-  color: #ddd;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  transition: background-color .15s ease, color .15s ease;
 }
+
 .sidebar-nav .nav-link:hover,
 .sidebar-nav .nav-link.active {
-  background-color: #495057;
+  background-color: var(--sidebar-hover);
   color: #fff;
 }
 
-/* ===== Desktop (≥ lg) : sidebar fixed + konten geser rapi ===== */
+/* Submenu (di dalam .collapse) */
+.sidebar .collapse .nav-link {
+  padding: 8px 10px;
+  margin: 2px 0;
+  font-size: .95rem;
+  color: #cbd5e1; /* sedikit lebih redup */
+}
+.sidebar .collapse .nav-link:hover,
+.sidebar .collapse .nav-link.active { color: #fff; }
+
+/* Fokus / A11y */
+.sidebar-nav .nav-link:focus {
+  outline: 2px solid #6c757d;
+  outline-offset: 2px;
+}
+
+/* Desktop: jadikan sidebar fixed, konten geser */
 @media (min-width: 992px) {
   .sidebar.offcanvas-lg {
     position: fixed;
     top: var(--navbar-h);
     left: 0;
-    width: var(--sidebar-w);                   /* paksa lebar sidebar konsisten */
+    width: var(--sidebar-w);
     height: calc(100vh - var(--navbar-h));
     border-right: 1px solid rgba(255,255,255,0.1);
-    transform: none !important;                /* tampilkan, bukan offscreen */
+    transform: none !important;          /* tampilkan, bukan offscreen */
     visibility: visible !important;
-    background-color: #343a40;
+    background-color: var(--sidebar-bg);
+  }
+  @supports (height: 100dvh) {
+    .sidebar.offcanvas-lg { height: calc(100dvh - var(--navbar-h)); }
   }
   .sidebar.offcanvas-lg .offcanvas-body {
     display: block;
     overflow-y: auto;
-    padding: 0.75rem 0.75rem 1rem;
+    padding: .75rem .75rem 1rem;
   }
 
-  /* Kunci lebar konten agar tidak melebihi viewport (no horizontal scroll) */
+  /* Hilangkan backdrop offcanvas di desktop */
+  .offcanvas-backdrop { display: none !important; }
+
+  /* Konten bergeser rapi tanpa overflow */
   .content {
     margin-left: var(--sidebar-w);
-    width: calc(100% - var(--sidebar-w));      /* ini yang menghilangkan geser */
+    width: calc(100% - var(--sidebar-w));
+    max-width: calc(100vw - var(--sidebar-w));
     padding: 1.5rem;
   }
 }
 
-/* ===== Mobile (< lg) : konten full width ===== */
+/* Mobile: konten full width */
 @media (max-width: 991.98px) {
   .content {
     margin-top: 1rem;
@@ -78,15 +123,86 @@ body {
   }
 }
 
-/* Card header tebal */
-.card .card-header { font-weight: 600; }
+/* ===========================
+   NAVBAR
+   =========================== */
 
-/* Tabel & chart responsif */
+.navbar-brand img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+/* ===========================
+   KOMPONEN UMUM
+   =========================== */
+
+.card .card-header { font-weight: 600; }
 .table-responsive { width: 100%; }
+
+/* Chart responsif */
 #kendalaChart { max-width: 100%; }
 
-/* Fokus state untuk aksesibilitas */
-.sidebar-nav .nav-link:focus {
-  outline: 2px solid #6c757d;
-  outline-offset: 2px;
+/* Util kecil */
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.truncate { display: block; max-width: 100%; }
+
+/* ===========================
+   HALAMAN: DATA KENDALA (scoped)
+   =========================== */
+
+#dataKendalaPage .table td,
+#dataKendalaPage .table th { vertical-align: middle; }
+
+/* Badge status */
+#dataKendalaPage .badge-status { font-weight: 600; letter-spacing:.2px; }
+#dataKendalaPage .badge-status.baru { background:#dbeafe; color:#1d4ed8; }
+#dataKendalaPage .badge-status.diproses { background:#fff7ed; color:#c2410c; }
+#dataKendalaPage .badge-status.selesai { background:#dcfce7; color:#166534; }
+
+/* Badge prioritas */
+#dataKendalaPage .badge-prio { font-weight: 600; }
+#dataKendalaPage .badge-prio.rendah { background:#eef2ff; color:#3730a3; }
+#dataKendalaPage .badge-prio.sedang { background:#fef9c3; color:#854d0e; }
+#dataKendalaPage .badge-prio.tinggi { background:#fee2e2; color:#991b1b; }
+
+/* Label form tebal di modal */
+#dataKendalaPage #kendalaModal .form-label { font-weight: 600; }
+
+/* Tabel mobile-friendly */
+@media (max-width: 576px) {
+  #dataKendalaPage .table thead { display: none; }
+  #dataKendalaPage .table tr { display: block; margin-bottom:.75rem; border-top:1px solid #f1f3f5; }
+  #dataKendalaPage .table td { display:flex; justify-content:space-between; gap:1rem; }
+  #dataKendalaPage .table td::before { content: attr(data-header); font-weight:600; color:#6b7280; }
+  #dataKendalaPage .table td.text-end { justify-content:flex-end; }
+}
+
+/* ===========================
+   HALAMAN: DASHBOARD (opsional tweak)
+   =========================== */
+
+.content .card.text-bg-primary,
+.content .card.text-bg-success,
+.content .card.text-bg-warning,
+.content .card.text-bg-danger {
+  border: none;
+}
+
+/* Table head kontras di card "Aktivitas Terbaru" */
+.content .table thead.table-dark th {
+  border-color: rgba(255,255,255,.15);
+}
+
+/* ===========================
+   PRINT (opsional)
+   =========================== */
+@media print {
+  .navbar, .sidebar, .offcanvas-backdrop { display: none !important; }
+  body { padding-top: 0; background: #fff; }
+  .content { margin: 0; width: 100%; }
 }
